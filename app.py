@@ -64,13 +64,22 @@ def visualise_histogram_plot(df, x_axis_column, title=None, kde=False):
     plt.show()
 
 
+# Perform EDA
+
 # Find gender ratio
 train_df['Gender'] = train_df['Gender'].map({1: 'Male', 2: 'Female', 3: 'Mixed'})
+train_df['Type'] = train_df['Type'].map({1: 'Dog', 2: 'Cat'})
+
+
 visualise_count_plot(train_df, 'Gender', 'Gender of Pets')
 
-# Get Adoption speed for cats and dogs
-train_df['Type'] = train_df['Type'].map({1: 'Dog', 2: 'Cat'})
 visualise_count_plot(train_df, 'AdoptionSpeed', hue='Type', title='Adoption speed of cats and dogs')
 
+visualise_count_plot(train_df, 'AdoptionSpeed', hue='Age', title='Adoption speed based on age')
+
 # Display distribution of age of pets
-visualise_histogram_plot(train_df, 'Age')
+visualise_histogram_plot(train_df, 'Age', title='Histogram of pets age')
+
+# TODO getting max min from panda series
+print(train_df['Age'].max)
+# print('Age range: %s months to %s months' % (train_df['Age'].min, train_df['Age'].max))
