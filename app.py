@@ -70,16 +70,15 @@ def visualise_histogram_plot(df, x_axis_column, title=None, kde=False):
 train_df['Gender'] = train_df['Gender'].map({1: 'Male', 2: 'Female', 3: 'Mixed'})
 train_df['Type'] = train_df['Type'].map({1: 'Dog', 2: 'Cat'})
 
-
+# Display Gender
 visualise_count_plot(train_df, 'Gender', 'Gender of Pets')
 
+# Display adoption speed of cats dogs
 visualise_count_plot(train_df, 'AdoptionSpeed', hue='Type', title='Adoption speed of cats and dogs')
 
+# Display adoption speed by age
 visualise_count_plot(train_df, 'AdoptionSpeed', hue='Age', title='Adoption speed based on age')
 
 # Display distribution of age of pets
 visualise_histogram_plot(train_df, 'Age', title='Histogram of pets age')
-
-# TODO getting max min from panda series
-print(train_df['Age'].max)
-# print('Age range: %s months to %s months' % (train_df['Age'].min, train_df['Age'].max))
+print('Age range: %s months to %s months' % (train_df['Age'].min(), train_df['Age'].max()))
