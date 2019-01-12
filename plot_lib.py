@@ -1,5 +1,4 @@
 import pandas as pd
-import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -48,13 +47,13 @@ H is the hatch used for identification of the different dataframe"""
 
 
 # create fake dataframes
-df1 = pd.DataFrame(np.random.rand(5, 5),
-                   index=["0", "1", "2", "3", "4"], # Adoption speed
+df1 = pd.DataFrame(np.random.rand(4, 5),
+                   index=['immediate','1 day','1 week','1 month'],# Adoption speed
                    columns=["Age 1", "Age 2", "Age 3", "Age 4", "Age 5"]) # age bins
 
-df2 = pd.DataFrame(np.random.rand(5, 5),
-                   index=["0", "1", "2", "3", "4"],
+df2 = pd.DataFrame(np.random.rand(4, 5),
+                   index=['immediate', '1 day', '1 week', '1 month'],  # Adoption speed
                    columns=["Age 1", "Age 2", "Age 3", "Age 4", "Age 5"])
 # Then, just call :
 plot_clustered_stacked([df1, df2], ["Cat", "Dog"])
-plt.show()
+# plt.show()
