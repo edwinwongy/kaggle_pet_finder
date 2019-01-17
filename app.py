@@ -66,34 +66,54 @@ def visualise_histogram_plot(df, x_axis_column, title=None, kde=False):
 
 # Perform EDA
 
-# Find gender ratio
-train_df['Gender'] = train_df['Gender'].map({1: 'Male', 2: 'Female', 3: 'Mixed'})
-train_df['Type'] = train_df['Type'].map({1: 'Dog', 2: 'Cat'})
+# # Find gender ratio
+# train_df['Gender'] = train_df['Gender'].map({1: 'Male', 2: 'Female', 3: 'Mixed'})
+# train_df['Type'] = train_df['Type'].map({1: 'Dog', 2: 'Cat'})
+#
+# # Number of cats and dogs
+# visualise_count_plot(train_df, 'Type', 'Type of pets')
+# # Display Gender
+# visualise_count_plot(train_df, 'Gender', 'Gender of Pets')
+#
+# # Display adoption speed of cats dogs
+# visualise_count_plot(train_df, 'AdoptionSpeed', split_by='Type', title='Adoption speed of cats and dogs')
+#
+# # Display vaccinated
+# visualise_count_plot(train_df, 'Vaccinated', 'Vaccinated pets')
+#
+# # Display distribution of age of pets
+# visualise_histogram_plot(train_df, 'Age', title='Histogram of pets age')
+# print('Age range: %s months to %s months' % (train_df['Age'].min(), train_df['Age'].max()))
+#
+# # Bin months into years
+# years = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+# train_df['AgeInYear'] = pd.cut(train_df['Age'], 22,
+#                                    labels=years)
+#
+# # visualise_histogram_plot(train_df, 'AgeInYear', 'Age in years')
+#
+# # Adoption rate for all animals
+# visualise_count_plot(train_df, 'AdoptionSpeed', title='Adoption rate for all animals')
+#
+# # Display adoption speed by age
+# visualise_count_plot(train_df, 'AdoptionSpeed', split_by='AgeInYear', title='Adoption speed based on age')
 
-# Number of cats and dogs
-visualise_count_plot(train_df, 'Type', 'Type of pets')
-# Display Gender
-visualise_count_plot(train_df, 'Gender', 'Gender of Pets')
+# Select features to use
+features = ['Type', 'Age', 'Breed1', 'Breed2', 'Gender', 'Color1', 'Color2',
+            'Color3', 'MaturitySize', 'Vaccinated', 'Dewormed', 'AdoptionSpeed',
+            'Sterilized', 'Health', 'Quantity', 'Fee']
 
-# Display adoption speed of cats dogs
-visualise_count_plot(train_df, 'AdoptionSpeed', split_by='Type', title='Adoption speed of cats and dogs')
+train_df = train_df[[feature for feature in features if feature in train_df.columns]]
+x_train =train_df.drop('AdoptionSpeed', axis=1)
+y_df = train_df['AdoptionSpeed']
 
-# Display vaccinated
-visualise_count_plot(train_df, 'Vaccinated', 'Vaccinated pets')
+from sklearn.tree import DecisionTreeClassifier
 
-# Display distribution of age of pets
-visualise_histogram_plot(train_df, 'Age', title='Histogram of pets age')
-print('Age range: %s months to %s months' % (train_df['Age'].min(), train_df['Age'].max()))
-
-# Bin months into years
-years = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
-train_df['AgeInYear'] = pd.cut(train_df['Age'], 22,
-                                   labels=years)
-
-# visualise_histogram_plot(train_df, 'AgeInYear', 'Age in years')
-
-# Adoption rate for all animals
-visualise_count_plot(train_df, 'AdoptionSpeed', title='Adoption rate for all animals')
-
-# Display adoption speed by age
-visualise_count_plot(train_df, 'AdoptionSpeed', split_by='AgeInYear', title='Adoption speed based on age')
+tree = DecisionTreeClassifier(random_state=0)
+tree.fit(x_train, y_df)
+print('Accuracy on training {}'.format(tree.score(x_train, y_df)))
+print('Predict {}'.format(tree.predict(x_train)))
+result_df = test_df[[feature for feature in features if feature in test_df.columns]]
+test_df['Predicted'] = tree.predict(result_df)
+submission = test_df[['RescuerID', 'Predicted']]
+submission.to_csv('submission.csv', index=False)
