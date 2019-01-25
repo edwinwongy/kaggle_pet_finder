@@ -115,5 +115,5 @@ print('Accuracy on training {}'.format(tree.score(x_train, y_df)))
 print('Predict {}'.format(tree.predict(x_train)))
 result_df = test_df[[feature for feature in features if feature in test_df.columns]]
 test_df['Predicted'] = tree.predict(result_df)
-submission = test_df[['RescuerID', 'Predicted']]
+submission = test_df[['PetID', 'Predicted']]
 submission.to_csv('submission.csv', index=False)
