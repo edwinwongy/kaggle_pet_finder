@@ -2,9 +2,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-train_df = pd.read_csv('data/train.csv')
+train_df = pd.read_csv('input/train.csv')
 train_df = train_df.assign(testtrain='train')
-test_df = pd.read_csv('data/test.csv')
+test_df = pd.read_csv('input/test.csv')
 test_df = test_df.assign(testtrain='test')
 
 # Combine into one big array
@@ -18,7 +18,7 @@ def visualise_data(datset):
     age = train_df['Age']
     # Target
 
-    # Displaying plots for all data
+    # Displaying plots for all input
     for column in columns:
         print('Displaying Column:', column)
         sns.distplot(train_df[column], kde=False)
