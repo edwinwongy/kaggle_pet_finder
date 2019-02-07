@@ -24,3 +24,5 @@ data = {
 }
 # tree = DecisionTreeClassifier(random_state=0)
 # tree.fit()
+
+print('Percentage of pet age greater than 10: {} %'.format())
